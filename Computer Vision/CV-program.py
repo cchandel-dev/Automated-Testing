@@ -1,11 +1,12 @@
+import os
 from ultralytics import YOLO
-import tkinter
+from tkinter import filedialog, Listbox, Scrollbar
 
 class Model:
     def __init__(self):
-        self.model = None
-        self.test_image_paths = None
-        self.test_answer_paths = None
+        self.model = filedialog.askopenfilename()
+        self.test_image_paths =  [f for f in os.list_dir(filedialog.askdirectory()) if f.endswith('.png')]
+        self.test_answer_paths = [f for f in os.list_dir(filedialog.askdirectory()) if f.endswith('.txt')]
         self.last_predicition = None
         
     def make_prediction(self, index):
@@ -14,3 +15,10 @@ class Model:
             return self.last_predicition
         else:
             return "No model is loaded"
+    
+    def get_last_prediction_bounding_boxes(self):
+        return len(self.last_prediction.__getitem__(0).boxes.xywhn)
+    
+    def get_last_prediction_classes(self):
+        return len(self.last_prediction.__getitem__(0).boxes.cls)
+    
