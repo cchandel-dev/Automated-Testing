@@ -11,7 +11,7 @@ class Model:
         
     def make_prediction(self, index):
         if self.model is not None:
-            self.last_predicition =  self.model.predict(source = self.test_image_paths[index], conf = 0.35)
+            self.last_predicition =  self.model.predict(source = self.test_image_paths[index], conf = 0.35, verbose = False)
             return self.last_predicition
         else:
             return "No model is loaded"
@@ -21,6 +21,37 @@ class Model:
     
     def get_last_prediction_classes(self):
         return len(self.last_prediction.__getitem__(0).boxes.cls)
+    
+def number_of_correct_class_predictions(predictions: list, annotations: list, allignment_list:list):
+    """
+    *STUDENT MUST IMPLEMENT*
+    Tell me how many correct class predictions were made.
+
+    Parameters:
+    - predictions: List of predicted bounding boxes in YOLO format.
+    - annotations: List of ground truth bounding boxes in YOLO format.
+    - aligned_pairs: List of tuples (prediction_index, annotation_index) representing aligned pairs
+
+    Returns:
+    - int: number of correct class predictions that were made.
+    """
+    pass
+
+def number_of_high_iou_bounding_boxes(predictions: list, annotations: list, allignment_list:list, threshold = 0.7):
+    """
+    *STUDENT MUST IMPLEMENT*
+    Tell me how many bounding boxes had an intersection-over-union over the threshold.
+
+    Parameters:
+    - predictions: List of predicted bounding boxes in YOLO format.
+    - annotations: List of ground truth bounding boxes in YOLO format.
+    - aligned_pairs: List of tuples (prediction_index, annotation_index) representing aligned pairs
+
+    Returns:
+    - int: number of bounding boxes that had an intersection-over-union over the threshold
+    """
+    pass
+
 
 def align_annotations(predictions, annotations):
     """
@@ -82,3 +113,4 @@ def calculate_iou(box1, box2):
     iou = area_intersection / area_union if area_union > 0 else 0.0
 
     return iou
+
